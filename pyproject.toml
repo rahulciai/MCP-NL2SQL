@@ -1,0 +1,9 @@
+[project]
+name = "mmm-nl2sql"
+version = "1.0.1"
+description = "MMM NL2SQL MCP server for read-only PostgreSQL analytics"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=0.4.1",
+    "psycopg2-binary>=2.9.9",
+]

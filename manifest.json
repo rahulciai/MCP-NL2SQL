@@ -1,0 +1,43 @@
+{
+  "manifest_version": "0.4",
+  "name": "mmm-nl2sql",
+  "display_name": "MMM NL2SQL PostgreSQL",
+  "version": "1.0.1",
+  "description": "Translate natural-language analytics questions into validated read-only PostgreSQL SQL using the MMM semantic context.",
+  "author": {
+    "name": "Local User"
+  },
+  "server": {
+    "type": "uv",
+    "entry_point": "main.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${__dirname}",
+        "main.py"
+      ],
+      "env": {
+        "DATABASE_URL": "${user_config.database_url}"
+      }
+    }
+  },
+  "tools_generated": true,
+  "compatibility": {
+    "platforms": ["win32", "darwin", "linux"],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  },
+  "keywords": ["postgresql", "nl2sql", "sql", "analytics"],
+  "user_config": {
+    "database_url": {
+      "type": "string",
+      "title": "PostgreSQL connection URL",
+      "description": "Example: postgresql://postgres:password@localhost:5432/company_ai. URL-encode special characters in the password.",
+      "required": true,
+      "sensitive": true
+    }
+  }
+}

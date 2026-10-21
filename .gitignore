@@ -1,0 +1,45 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode and test/tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environment files and secrets
+configuration/environment.env
+environment.env
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local Claude Desktop configuration with machine-specific paths
+config.json
+!config.json.example
+
+# Local database, application, and debug logs
+*.log
+logs/
+
+# Generated MCPB/package artifacts
+*.mcpb
+dist/
+build/
+*.egg-info/
+
+# IDE and operating-system files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
