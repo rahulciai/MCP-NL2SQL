@@ -19,7 +19,8 @@
         "main.py"
       ],
       "env": {
-        "DATABASE_URL": "${user_config.database_url}"
+        "DATABASE_URL": "${user_config.database_url}",
+        "MCP_TRANSPORT": "stdio"
       }
     }
   },

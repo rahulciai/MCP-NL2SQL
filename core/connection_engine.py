@@ -40,7 +40,7 @@ def get_database_url() -> str:
     database_url = os.getenv("DATABASE_URL")
     if not database_url:
         raise RuntimeError(
-            "DATABASE_URL is missing. Set it in the Claude Desktop env block "
+            "DATABASE_URL is missing. Set it in the server environment "
             "or in configuration/environment.env."
         )
     return database_url

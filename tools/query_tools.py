@@ -8,7 +8,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
 
-from core.connection_engine import fetch_all
+from core.database_service import execute_read_only_query_result, validate_sql_query_result
 
 
 MAX_ROWS = 150
@@ -109,41 +109,19 @@ def register_query_tools(mcp: Any) -> None:
         PostgreSQL plans the query, so missing tables, columns, functions, and
         type errors are detected. This is not execution verification.
         """
-        try:
-            safe_sql = _validate_read_only_sql(sql)
-            fetch_all(f"EXPLAIN (FORMAT JSON) {safe_sql}")
-        except Exception as exc:
-            return json.dumps(
-                {"validated": False, "executed": False, "sql": sql, "error": str(exc)},
-                indent=2,
-            )
+        return json.dumps(validate_sql_query_result(sql), indent=2)
 
-        return json.dumps(
-            {
-                "validated": True,
-                "executed": False,
-                "sql": safe_sql,
-                "message": "PostgreSQL planned the query only. No result rows were returned; this is not execution verification.",
-            },
-            indent=2,
-        )
-
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "openWorldHint": False,
+        }
+    )
     def execute_read_only_query(sql: str) -> str:
         """Execute one validated PostgreSQL SELECT/WITH query, returning up to 150 rows as JSON."""
         try:
-            safe_sql = _validate_read_only_sql(sql)
-            limited_sql = f"SELECT * FROM ({safe_sql}) AS mcp_read_only_query LIMIT %s"
-            rows = fetch_all(limited_sql, (MAX_ROWS,))
+            payload = execute_read_only_query_result(sql)
         except Exception as exc:
             return f"Query error: {exc}"
-
-        payload = {
-            "sql": safe_sql,
-            "executed": True,
-            "verified_by_postgresql_execution": True,
-            "row_count": len(rows),
-            "max_rows": MAX_ROWS,
-            "rows": rows,
-        }
         return json.dumps(payload, default=_json_default, indent=2)

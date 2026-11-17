@@ -29,6 +29,8 @@ config.json
 # Local database, application, and debug logs
 *.log
 logs/
+data/
+*.sqlite3
 
 # Generated MCPB/package artifacts
 *.mcpb
